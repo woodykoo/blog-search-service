@@ -2,9 +2,10 @@ package com.woody.webservice.blogsearch.api.request;
 
 import com.woody.webservice.blogsearch.enums.Sort;
 import com.woody.webservice.blogsearch.service.data.BlogSearchConditionData;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,8 @@ import javax.validation.constraints.NotBlank;
  * */
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class BlogSearchRequest {
 
     @NotBlank(message = "검색어는 필수값 입니다.")
