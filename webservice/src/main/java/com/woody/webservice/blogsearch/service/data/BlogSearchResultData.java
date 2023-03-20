@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -34,6 +35,6 @@ public class BlogSearchResultData {
         private String url;
         private String blogname;
         private String thumbnail;
-        private String datetime;
+        private LocalDateTime datetime;
     }
 }

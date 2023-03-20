@@ -1,10 +1,12 @@
 package com.woody.client.kakao.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -39,6 +41,9 @@ public class KakaoBlogSearchResponse {
         private String url;
         private String blogname;
         private String thumbnail;
-        private String datetime;
+
+//        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        private LocalDateTime datetime;
     }
 }

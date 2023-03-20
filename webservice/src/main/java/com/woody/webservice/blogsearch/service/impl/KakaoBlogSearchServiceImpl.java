@@ -9,6 +9,7 @@ import com.woody.client.kakao.dto.response.KakaoBlogSearchResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -19,9 +20,10 @@ import java.util.stream.Collectors;
  * 카카오 API 연동 블로그 검색 서비스 구현체
  * */
 @Slf4j
-@Service
+@Primary
+@Service("KakaoBlogSearch")
 @RequiredArgsConstructor
-public class KakaoBlogSearchService implements BlogSearchService {
+public class KakaoBlogSearchServiceImpl implements BlogSearchService {
 
     private final KakaoBlogSearchClient kakaoBlogSearchClient;
 
@@ -30,7 +32,9 @@ public class KakaoBlogSearchService implements BlogSearchService {
     @Override
     public BlogSearchResultData searchBlog(BlogSearchConditionData searchCondition) {
 
-        log.info("searchCondition : {}", searchCondition);
+        if (true) {
+            throw new RuntimeException();
+        }
 
         KakaoBlogSearchResponse searchResponse = kakaoBlogSearchClient.searchBlog(searchCondition.getKeyword(), searchCondition.getSort().getValue(), searchCondition.getPage(), searchCondition.getSize());
 
