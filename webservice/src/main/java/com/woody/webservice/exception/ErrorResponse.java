@@ -3,7 +3,6 @@ package com.woody.webservice.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 
 @Getter
