@@ -37,8 +37,6 @@ public class NaverBlogSearchServiceImpl implements BlogSearchService {
         int pageableCount = getPageableCount(searchResponse.getTotal(), searchResponse.getDisplay());
         int totalPage = pageableCount/searchResponse.getDisplay();
 
-        log.info("totalPage :{}", totalPage);
-
         return BlogSearchResultData.builder()
                 .currentPage(searchResponse.getStart())
                 .totalCount(searchResponse.getTotal())

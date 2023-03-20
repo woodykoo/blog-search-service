@@ -32,10 +32,6 @@ public class KakaoBlogSearchServiceImpl implements BlogSearchService {
     @Override
     public BlogSearchResultData searchBlog(BlogSearchConditionData searchCondition) {
 
-        if (true) {
-            throw new RuntimeException();
-        }
-
         KakaoBlogSearchResponse searchResponse = kakaoBlogSearchClient.searchBlog(searchCondition.getKeyword(), searchCondition.getSort().getValue(), searchCondition.getPage(), searchCondition.getSize());
 
         publisher.publishEvent(new BlogSearchStatisticsEvent(searchCondition.getKeyword()));
