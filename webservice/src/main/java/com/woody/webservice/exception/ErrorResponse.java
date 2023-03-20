@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 
 @Getter
 @NoArgsConstructor
@@ -13,8 +14,8 @@ public class ErrorResponse {
 
     private int errorCode;
 
-    public static ErrorResponse of(BindException e) {
-        return new ErrorResponse(e.getFieldError() != null ? e.getFieldError().getDefaultMessage() : ErrorCode.BAD_REQUEST.getDesc(), ErrorCode.BAD_REQUEST.getCode());
+    public static ErrorResponse of(BindingResult bindingResult) {
+        return new ErrorResponse(bindingResult.getFieldError() != null ? bindingResult.getFieldError().getDefaultMessage() : ErrorCode.BAD_REQUEST.getDesc(), ErrorCode.BAD_REQUEST.getCode());
     }
 
     public static ErrorResponse of(ErrorCode errorCode) {

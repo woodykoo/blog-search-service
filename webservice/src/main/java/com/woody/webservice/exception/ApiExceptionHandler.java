@@ -9,21 +9,21 @@ import com.woody.client.naver.exception.NaverServerErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.support.WebExchangeBindException;
 
 
 @Slf4j
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(BindException.class)
+    @ExceptionHandler({BindException.class, WebExchangeBindException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ErrorResponse handleBindException(BindException e) {
-        log.info("message : {}", e.getMessage());
-
-        return ErrorResponse.of(e);
+    protected ErrorResponse handleBindException(BindingResult bindingResult) {
+        return ErrorResponse.of(bindingResult);
     }
 
     @ExceptionHandler(KakaoBadRequestException.class)

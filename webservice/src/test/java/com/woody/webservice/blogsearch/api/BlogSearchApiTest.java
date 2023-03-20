@@ -1,8 +1,13 @@
 package com.woody.webservice.blogsearch.api;
 
+import com.woody.client.kakao.exception.KakaoErrorResponse;
+import com.woody.client.kakao.exception.KakaoServerErrorException;
+import com.woody.client.naver.exception.NaverErrorResponse;
+import com.woody.client.naver.exception.NaverServerErrorException;
 import com.woody.webservice.blogsearch.api.response.BlogSearchResponse;
 import com.woody.webservice.blogsearch.service.BlogSearchService;
 import com.woody.webservice.blogsearch.service.data.BlogSearchResultData;
+import com.woody.webservice.exception.ErrorCode;
 import com.woody.webservice.exception.ErrorResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -92,7 +97,7 @@ class BlogSearchApiTest {
             void 카카오_서버_장애_네이버_블로그_조회_성공() throws Exception {
                 // given
                 Mockito.when(kakaoBlogSearchService.searchBlog(any()))
-                        .thenThrow(new RuntimeException());
+                        .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse("ServerError", "ServerError")));
 
                 Mockito.when(naverBlogSearchService.searchBlog(any()))
                         .thenReturn(blogSearchResultData);
@@ -181,11 +186,10 @@ class BlogSearchApiTest {
             void 카카오_네이버_서버장애_조회실패() {
                 // given
                 Mockito.when(kakaoBlogSearchService.searchBlog(any()))
-                        .thenThrow(new RuntimeException());
+                        .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse()));
 
-                // given
                 Mockito.when(naverBlogSearchService.searchBlog(any()))
-                        .thenThrow(new RuntimeException());
+                        .thenThrow(new NaverServerErrorException(new NaverErrorResponse("SE99", "서버 내부에 오류가 발생했습니다.")));
 
                 // when
                 ErrorResponse responseBody = webTestClient.get().uri(uriBuilder ->
@@ -200,6 +204,10 @@ class BlogSearchApiTest {
                         .expectBody(ErrorResponse.class)
                         .returnResult()
                         .getResponseBody();
+
+                // then
+                assertThat(responseBody).isNotNull();
+                assertThat(responseBody.getErrorCode()).isEqualTo(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
             }
         }
     }
