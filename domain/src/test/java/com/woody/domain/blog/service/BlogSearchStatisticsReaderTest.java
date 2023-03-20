@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @ExtendWith(MockitoExtension.class)
 class BlogSearchStatisticsReaderTest {
 
@@ -26,20 +28,19 @@ class BlogSearchStatisticsReaderTest {
     @DisplayName("인기 검색어 조회 테스트")
     void getPopularSearches() throws Exception {
         // given
-        List<BlogSearchStatistics> blogSearchStatisticsList = new ArrayList<>();
+        List<BlogSearchStatistics> teatData = new ArrayList<>();
         for (int i=0; i<10; i++) {
-            BlogSearchStatistics blogSearchStatistics = new BlogSearchStatistics("테스트" + i);
-
-            blogSearchStatistics.increaseCount();
-
-            blogSearchStatisticsList.add(blogSearchStatistics);
+            teatData.add(new BlogSearchStatistics("테스트" + i));
         }
 
         // when
         Mockito.when(blogSearchStatisticsQueryRepository.findPopularSearches())
-                .thenReturn(blogSearchStatisticsList);
+                .thenReturn(teatData);
 
-        blogSearchStatisticsReader.getPopularSearches();
+        List<BlogSearchStatistics> blogSearchStatisticsList = blogSearchStatisticsReader.getPopularSearches();
+
         // then
+        assertThat(blogSearchStatisticsList).isNotNull();
+        assertThat(blogSearchStatisticsList.size()).isEqualTo(10);
     }
 }
