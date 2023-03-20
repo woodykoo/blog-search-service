@@ -1,5 +1,6 @@
 package com.woody.client.kakao.config;
 
+import com.woody.client.kakao.exception.KakaoFeignErrorDecoder;
 import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,5 +19,10 @@ public class KakaoFeignConfig {
     @Bean
     public RequestInterceptor kakaoRequestInterceptor() {
         return requestTemplate -> requestTemplate.header("Authorization", "KakaoAK " + apiKey);
+    }
+
+    @Bean
+    public KakaoFeignErrorDecoder kakaoFeignErrorDecoder() {
+        return new KakaoFeignErrorDecoder();
     }
 }

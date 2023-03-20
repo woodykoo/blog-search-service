@@ -1,5 +1,6 @@
 package com.woody.webservice.blogsearch.api;
 
+import com.woody.client.kakao.exception.KakaoServerErrorException;
 import com.woody.webservice.blogsearch.api.request.BlogSearchRequest;
 import com.woody.webservice.blogsearch.api.response.BlogSearchResponse;
 import com.woody.webservice.blogsearch.service.BlogSearchService;
@@ -42,7 +43,7 @@ public class BlogSearchApi {
 
         return Mono.fromCallable(() -> kakaoBlogSearchService.searchBlog(request.toSearchCondition()))
                 .onErrorResume(
-                        RuntimeException.class,
+                        KakaoServerErrorException.class,
                         e -> Mono.fromCallable(() -> naverBlogSearchService.searchBlog(request.toSearchCondition())))
                 .map(BlogSearchResponse::from);
     }

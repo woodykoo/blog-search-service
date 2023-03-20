@@ -16,4 +16,8 @@ public class ErrorResponse {
     public static ErrorResponse of(BindException e) {
         return new ErrorResponse(e.getFieldError() != null ? e.getFieldError().getDefaultMessage() : ErrorCode.BAD_REQUEST.getDesc(), ErrorCode.BAD_REQUEST.getCode());
     }
+
+    public static ErrorResponse of(ErrorCode errorCode) {
+        return new ErrorResponse(errorCode.getDesc(), errorCode.getCode());
+    }
 }
