@@ -141,6 +141,10 @@ class BlogSearchApiTest {
                         .expectBody(ErrorResponse.class)
                         .returnResult()
                         .getResponseBody();
+
+                // then
+                assertThat(responseBody).isNotNull();
+                assertThat(responseBody.getErrorCode()).isEqualTo(ErrorCode.BAD_REQUEST.getCode());
             }
 
             @Test
@@ -159,6 +163,10 @@ class BlogSearchApiTest {
                         .expectBody(ErrorResponse.class)
                         .returnResult()
                         .getResponseBody();
+
+                // then
+                assertThat(responseBody).isNotNull();
+                assertThat(responseBody.getErrorCode()).isEqualTo(ErrorCode.BAD_REQUEST.getCode());
             }
 
             @Test
@@ -177,6 +185,10 @@ class BlogSearchApiTest {
                         .expectBody(ErrorResponse.class)
                         .returnResult()
                         .getResponseBody();
+
+                // then
+                assertThat(responseBody).isNotNull();
+                assertThat(responseBody.getErrorCode()).isEqualTo(ErrorCode.BAD_REQUEST.getCode());
             }
         }
 
