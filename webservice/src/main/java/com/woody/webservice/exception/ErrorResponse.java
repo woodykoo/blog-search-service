@@ -9,9 +9,11 @@ import org.springframework.validation.BindException;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
-    private String message;
+    private String errorMessage;
+
+    private int errorCode;
 
     public static ErrorResponse of(BindException e) {
-        return new ErrorResponse(e.getFieldError() != null ? e.getFieldError().getDefaultMessage() : "");
+        return new ErrorResponse(e.getFieldError() != null ? e.getFieldError().getDefaultMessage() : ErrorCode.BAD_REQUEST.getDesc(), ErrorCode.BAD_REQUEST.getCode());
     }
 }
