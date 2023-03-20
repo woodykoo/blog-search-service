@@ -1,10 +1,10 @@
 package com.woody.client.kakao.exception;
 
-public class KakaoClientException extends RuntimeException {
+abstract class KakaoClientException extends RuntimeException {
     private final KakaoErrorResponse errorResponse;
 
-    protected KakaoClientException(KakaoErrorResponse kakaoErrorResponse) {
-        this.errorResponse = kakaoErrorResponse;
+    protected KakaoClientException(KakaoErrorResponse errorResponse) {
+        this.errorResponse = errorResponse;
     }
 
     public KakaoErrorResponse getErrorResponse() {

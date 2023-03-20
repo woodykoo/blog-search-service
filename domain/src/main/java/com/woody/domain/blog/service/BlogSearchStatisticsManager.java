@@ -21,7 +21,8 @@ public class BlogSearchStatisticsManager {
 
     @RedissonLock(prefix = "blogSearch", key = "keyword")
     public void increaseCount(String keyword) {
-        BlogSearchStatistics blogSearchStatistics = blogSearchStatisticsRepository.findByKeyword(keyword).orElseGet(() -> saveKeyword(keyword));
+        BlogSearchStatistics blogSearchStatistics = blogSearchStatisticsRepository.findByKeyword(keyword)
+                .orElseGet(() -> saveKeyword(keyword));
         blogSearchStatistics.increaseCount();
     }
 

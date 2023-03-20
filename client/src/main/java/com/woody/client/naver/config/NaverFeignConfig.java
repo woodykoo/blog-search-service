@@ -1,5 +1,6 @@
 package com.woody.client.naver.config;
 
+import com.woody.client.naver.exception.NaverFeignErrorDecoder;
 import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +24,9 @@ public class NaverFeignConfig {
         return requestTemplate -> requestTemplate
                 .header("X-Naver-Client-Id", clientId)
                 .header("X-Naver-Client-Secret", clientSecret);
+    }
+    @Bean
+    public NaverFeignErrorDecoder naverFeignErrorDecoder() {
+        return new NaverFeignErrorDecoder();
     }
 }
