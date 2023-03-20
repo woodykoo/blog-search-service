@@ -1,0 +1,15 @@
+pluginManagement {
+    plugins {
+        id 'java'
+        id 'org.springframework.boot' version "${springBootVersion}"
+        id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    }
+}
+
+rootProject.name = 'blog-search-service'
+
+include(
+        ':webservice',
+        ':domain',
+        ':client'
+)

@@ -1,0 +1,38 @@
+plugins {
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    implementation "com.querydsl:querydsl-jpa:5.0.0"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
+
+    implementation "com.github.codemonstur:embedded-redis:0.13.0"
+    implementation 'org.redisson:redisson:3.20.0'
+
+    runtimeOnly "com.h2database:h2"
+}
+
+
+def querydslSrcDir = "$buildDir/main/generated"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+    main.java.srcDir querydslSrcDir
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}

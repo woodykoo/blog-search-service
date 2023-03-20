@@ -1,0 +1,41 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+	}
+}
+
+allprojects {
+	group = "${projectGroup}"
+	version = "${projectVersion}"
+}
+
+subprojects {
+	apply plugin: "java"
+	apply plugin: "org.springframework.boot"
+	apply plugin: "io.spring.dependency-management"
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		}
+	}
+
+	dependencies {
+		compileOnly "org.projectlombok:lombok"
+		annotationProcessor "org.projectlombok:lombok"
+
+		testImplementation "org.springframework.boot:spring-boot-starter-test"
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+}
