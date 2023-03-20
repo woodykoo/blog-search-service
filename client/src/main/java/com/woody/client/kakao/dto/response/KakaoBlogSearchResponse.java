@@ -42,7 +42,6 @@ public class KakaoBlogSearchResponse {
         private String blogname;
         private String thumbnail;
 
-//        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private LocalDateTime datetime;
     }

@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "blog_search_statistics")
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BlogSearchStatistics {
 
