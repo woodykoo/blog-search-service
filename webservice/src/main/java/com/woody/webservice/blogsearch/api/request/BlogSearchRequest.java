@@ -23,7 +23,7 @@ public class BlogSearchRequest {
     @NotBlank(message = "검색어는 필수값 입니다.")
     private String keyword;
 
-    @Max(value = 51, message = "최대 50페이지 까지 검색이 가능 합니다.")
+    @Max(value = 50, message = "최대 50페이지 까지 검색이 가능 합니다.")
     private int page = 1;
 
     @Max(value = 50, message = "최대 50개씩 검색이 가능 합니다.")
