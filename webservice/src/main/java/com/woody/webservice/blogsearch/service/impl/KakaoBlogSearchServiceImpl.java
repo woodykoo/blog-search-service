@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * */
 @Slf4j
 @Primary
-@Service("KakaoBlogSearch")
+@Service
 @RequiredArgsConstructor
 public class KakaoBlogSearchServiceImpl implements BlogSearchService {
 

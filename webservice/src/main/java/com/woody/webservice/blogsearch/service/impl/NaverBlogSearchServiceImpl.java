@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service("NaverBlogSearch")
+@Service
 @RequiredArgsConstructor
 public class NaverBlogSearchServiceImpl implements BlogSearchService {
 
