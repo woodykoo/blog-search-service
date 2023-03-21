@@ -5,8 +5,10 @@ import com.woody.client.kakao.exception.KakaoServerErrorException;
 import com.woody.client.naver.exception.NaverErrorResponse;
 import com.woody.client.naver.exception.NaverServerErrorException;
 import com.woody.webservice.blogsearch.api.response.BlogSearchResponse;
+import com.woody.webservice.blogsearch.enums.BlogSearchSource;
 import com.woody.webservice.blogsearch.service.BlogSearchService;
 import com.woody.webservice.blogsearch.service.data.BlogSearchResultData;
+import com.woody.webservice.blogsearch.service.router.BlogSearchServiceRouter;
 import com.woody.webservice.exception.ErrorCode;
 import com.woody.webservice.exception.ErrorResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,25 +26,29 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.woody.webservice.blogsearch.enums.BlogSearchSource.KAKAO;
+import static com.woody.webservice.blogsearch.enums.BlogSearchSource.NAVER;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
-@WebFluxTest(BlogSearchApi.class)
+@WebFluxTest({BlogSearchApi.class, BlogSearchServiceRouter.class})
 class BlogSearchApiTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean(name = "KakaoBlogSearch")
+    @Autowired
+    private BlogSearchServiceRouter blogSearchServiceRouter;
+
+    @MockBean(name = "kakaoBlogSearchServiceImpl")
     private BlogSearchService kakaoBlogSearchService;
 
-    @MockBean(name = "NaverBlogSearch")
+    @MockBean(name = "naverBlogSearchServiceImpl")
     private BlogSearchService naverBlogSearchService;
 
     @Nested
     @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
     class 블로그_조회_테스트 {
-
         @Nested
         class 정상_CASE {
 
@@ -69,7 +75,7 @@ class BlogSearchApiTest {
             @Test
             void 카카오_블로그_조회_성공() throws Exception {
                 // given
-                Mockito.when(kakaoBlogSearchService.searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(BlogSearchSource.KAKAO).searchBlog(any()))
                         .thenReturn(blogSearchResultData);
 
                 // when
@@ -96,10 +102,10 @@ class BlogSearchApiTest {
             @Test
             void 카카오_서버_장애_네이버_블로그_조회_성공() throws Exception {
                 // given
-                Mockito.when(kakaoBlogSearchService.searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlog(any()))
                         .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse("ServerError", "ServerError")));
 
-                Mockito.when(naverBlogSearchService.searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlog(any()))
                         .thenReturn(blogSearchResultData);
 
                 // when
@@ -197,10 +203,10 @@ class BlogSearchApiTest {
             @Test
             void 카카오_네이버_서버장애_조회실패() {
                 // given
-                Mockito.when(kakaoBlogSearchService.searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlog(any()))
                         .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse()));
 
-                Mockito.when(naverBlogSearchService.searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlog(any()))
                         .thenThrow(new NaverServerErrorException(new NaverErrorResponse("SE99", "서버 내부에 오류가 발생했습니다.")));
 
                 // when
