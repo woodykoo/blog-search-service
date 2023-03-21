@@ -10,6 +10,9 @@
 ### API 명세서
 https://documenter.getpostman.com/view/4637707/2s93RKzFWa
 
+### 실행 Jar 다운로드 링크
+https://github.com/woodykoo/blog-search-service/raw/master/download/blog-search-service.jar
+
 
 ### 외부 라이브러리 및 오픈소스
 ```
