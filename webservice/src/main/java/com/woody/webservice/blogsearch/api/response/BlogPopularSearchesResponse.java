@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class BlogPopularSearchesResponse {
 
-    private List<BlogPopularSearch> blogPopularSearches;
+    private List<BlogPopularSearch> rankList;
 
     public static BlogPopularSearchesResponse from(List<BlogPopularSearchData> blogPopularSearchDataList) {
         return new BlogPopularSearchesResponse(blogPopularSearchDataList.stream().map(BlogPopularSearch::new).collect(Collectors.toList()));
