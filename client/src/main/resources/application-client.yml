@@ -1,16 +1,8 @@
-#feign:
-#  client:
-#    config:
-#      log-client: default
-#      loggerLevel: FULL
-#
-#external-api:
-#  http-bin: http://localhost:8080
-
 logging:
   level:
     com.woody.client: DEBUG
-
+---
+spring.config.activate.on-profile: local
 kakao:
   api:
     url: https://dapi.kakao.com
