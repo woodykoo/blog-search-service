@@ -63,8 +63,8 @@ class BlogSearchStatisticsApiTest {
 
                 // then
                 assertThat(responseBody).isNotNull();
-                assertThat(responseBody.getBlogPopularSearches()).isNotNull();
-                assertThat(responseBody.getBlogPopularSearches().size()).isEqualTo(10);
+                assertThat(responseBody.getRankList()).isNotNull();
+                assertThat(responseBody.getRankList().size()).isEqualTo(10);
             }
         }
 
