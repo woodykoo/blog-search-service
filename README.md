@@ -69,7 +69,7 @@ implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 │           │                       ├── NaverFeignErrorDecoder.java
 │           │                       └── NaverServerErrorException.java
 │           └── resources
-│               └── client.yml
+│               └── application-client.yml
 ├── domain
 │   ├── build.gradle
 │   └── src
@@ -97,7 +97,9 @@ implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 │           │                   ├── QueryDslConfig.java
 │           │                   └── RedisConfig.java
 │           └── resources
-│               └── application.yml
+│               └── application-domain.yml
+├── download
+│   └── blog-search-service.jar
 ├── gradle.properties
 ├── gradlew
 ├── gradlew.bat
@@ -150,5 +152,5 @@ implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
                 ├── application.yml
                 └── logback-spring.xml
 
-55 directories, 66 files
+56 directories, 67 files
 ```
