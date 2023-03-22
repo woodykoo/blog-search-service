@@ -19,7 +19,7 @@ https://github.com/woodykoo/blog-search-service/raw/master/download/blog-search-
 Redis : 로컬 환경에서 실행시키기 윈한 Embedded Redis 사용
 implementation "com.github.codemonstur:embedded-redis:0.13.0"
 
-Redssion : RedisClient로 동시성 이슈 제어를 위한 Redis 분산락 사용
+Redisson : RedisClient로 동시성 이슈 제어를 위한 Redis 분산락 사용
 implementation 'org.redisson:redisson:3.20.0'
 ```
 
