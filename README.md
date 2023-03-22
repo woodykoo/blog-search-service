@@ -21,9 +21,6 @@ implementation "com.github.codemonstur:embedded-redis:0.13.0"
 
 Redssion : RedisClient로 동시성 이슈 제어를 위한 Redis 분산락 사용
 implementation 'org.redisson:redisson:3.20.0'
-
-Openfeign : 백엔드 API 연동을 위한 Client로 사용
-implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 ```
 
 ### 프로젝트 구조
