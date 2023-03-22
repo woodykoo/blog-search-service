@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  * Created by woody 2023.03.20
  * 카카오 API 연동 블로그 검색 서비스 구현체
  * */
-@Slf4j
 @Primary
 @Service
 @RequiredArgsConstructor
