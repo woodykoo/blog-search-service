@@ -3,7 +3,7 @@ package com.woody.webservice.blogsearch.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.woody.client.kakao.KakaoBlogSearchClient;
+import com.woody.client.kakao.KakaoApiClient;
 import com.woody.client.kakao.dto.response.KakaoBlogSearchResponse;
 import com.woody.webservice.blogsearch.enums.Sort;
 import com.woody.webservice.blogsearch.service.data.BlogSearchConditionData;
@@ -15,9 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -25,10 +26,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 class KakaoBlogSearchServiceImplTest {
 
     @Mock
-    private KakaoBlogSearchClient kakaoBlogSearchClient;
-
-    @Mock
-    private ApplicationEventPublisher publisher;
+    private KakaoApiClient kakaoApiClient;
 
     @InjectMocks
     private KakaoBlogSearchServiceImpl kakaoBlogSearchService;
@@ -40,16 +38,21 @@ class KakaoBlogSearchServiceImplTest {
         BlogSearchConditionData searchConditionData = new BlogSearchConditionData("테스트", 1, 10, Sort.ACCURACY);
         KakaoBlogSearchResponse searchResponse = getKakaoBlogSearchResponse();
 
-        Mockito.when(kakaoBlogSearchClient.searchBlog(anyString(), anyString(), anyInt(), anyInt()))
-                .thenReturn(searchResponse);
+        Mockito.when(kakaoApiClient.searchBlogs(anyString(), anyString(), anyInt(), anyInt()))
+                .thenReturn(Mono.just(searchResponse));
 
         // when
-        BlogSearchResultData blogSearchResultData = kakaoBlogSearchService.searchBlog(searchConditionData);
+        Mono<BlogSearchResultData> blogSearchResultData = kakaoBlogSearchService.searchBlogs(searchConditionData);
 
         // then
-        assertThat(blogSearchResultData).isNotNull();
-        assertThat(blogSearchResultData.getDocuments().size()).isEqualTo(1);
-        assertThat(blogSearchResultData.getCurrentPage()).isEqualTo(1);
+        StepVerifier.create(blogSearchResultData)
+                .assertNext(result -> {
+                    assertEquals(1, result.getCurrentPage());
+                    assertEquals(10, result.getSize());
+                    assertEquals(1, result.getDocuments().size());
+                })
+                .expectComplete()
+                .verify();
     }
 
     private KakaoBlogSearchResponse getKakaoBlogSearchResponse() throws JsonProcessingException {

@@ -3,7 +3,7 @@ package com.woody.webservice.blogsearch.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.woody.client.naver.NaverBlogSearchClient;
+import com.woody.client.naver.NaverApiClient;
 import com.woody.client.naver.dto.response.NaverBlogSearchResponse;
 import com.woody.webservice.blogsearch.enums.Sort;
 import com.woody.webservice.blogsearch.service.data.BlogSearchConditionData;
@@ -16,8 +16,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -25,10 +28,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 class NaverBlogSearchServiceImplTest {
 
     @Mock
-    private NaverBlogSearchClient naverBlogSearchClient;
-
-    @Mock
-    private ApplicationEventPublisher publisher;
+    private NaverApiClient naverApiClient;
 
     @InjectMocks
     private NaverBlogSearchServiceImpl naverBlogSearchService;
@@ -40,16 +40,21 @@ class NaverBlogSearchServiceImplTest {
         BlogSearchConditionData searchConditionData = new BlogSearchConditionData("테스트", 1, 10, Sort.ACCURACY);
         NaverBlogSearchResponse searchResponse = getNaverBlogSearchResponse();
 
-        Mockito.when(naverBlogSearchClient.searchBlog(anyString(), anyInt(), anyInt(), anyString()))
-                .thenReturn(searchResponse);
+        Mockito.when(naverApiClient.searchBlogs(anyString(), anyString(), anyInt(), anyInt()))
+                .thenReturn(Mono.just(searchResponse));
 
         // when
-        BlogSearchResultData blogSearchResultData = naverBlogSearchService.searchBlog(searchConditionData);
+        Mono<BlogSearchResultData> blogSearchResultData = naverBlogSearchService.searchBlogs(searchConditionData);
 
         // then
-        assertThat(blogSearchResultData).isNotNull();
-        assertThat(blogSearchResultData.getDocuments().size()).isEqualTo(2);
-        assertThat(blogSearchResultData.getCurrentPage()).isEqualTo(1);
+        StepVerifier.create(blogSearchResultData)
+                .assertNext(result -> {
+                    assertEquals(1, result.getCurrentPage());
+                    assertEquals(2, result.getSize());
+                    assertEquals(2, result.getDocuments().size());
+                })
+                .expectComplete()
+                .verify();
     }
 
     private NaverBlogSearchResponse getNaverBlogSearchResponse() throws JsonProcessingException {

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -75,8 +76,8 @@ class BlogSearchApiTest {
             @Test
             void 카카오_블로그_조회_성공() throws Exception {
                 // given
-                Mockito.when(blogSearchServiceRouter.getServiceBySource(BlogSearchSource.KAKAO).searchBlog(any()))
-                        .thenReturn(blogSearchResultData);
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(BlogSearchSource.KAKAO).searchBlogs(any()))
+                        .thenReturn(Mono.just(blogSearchResultData));
 
                 // when
                 BlogSearchResponse responseBody = webTestClient.get().uri(uriBuilder ->
@@ -102,11 +103,11 @@ class BlogSearchApiTest {
             @Test
             void 카카오_서버_장애_네이버_블로그_조회_성공() throws Exception {
                 // given
-                Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlogs(any()))
                         .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse("ServerError", "ServerError")));
 
-                Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlog(any()))
-                        .thenReturn(blogSearchResultData);
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlogs(any()))
+                        .thenReturn(Mono.just(blogSearchResultData));
 
                 // when
                 BlogSearchResponse responseBody = webTestClient.get().uri(uriBuilder ->
@@ -203,10 +204,10 @@ class BlogSearchApiTest {
             @Test
             void 카카오_네이버_서버장애_조회실패() {
                 // given
-                Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlogs(any()))
                         .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse()));
 
-                Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlog(any()))
+                Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlogs(any()))
                         .thenThrow(new NaverServerErrorException(new NaverErrorResponse("SE99", "서버 내부에 오류가 발생했습니다.")));
 
                 // when
