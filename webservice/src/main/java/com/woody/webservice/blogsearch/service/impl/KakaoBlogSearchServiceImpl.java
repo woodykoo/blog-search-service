@@ -1,16 +1,15 @@
 package com.woody.webservice.blogsearch.service.impl;
 
-import com.woody.webservice.blogsearch.event.BlogSearchStatisticsEvent;
+import com.woody.client.kakao.KakaoApiClient;
+import com.woody.client.kakao.dto.response.KakaoBlogSearchResponse;
 import com.woody.webservice.blogsearch.service.BlogSearchService;
 import com.woody.webservice.blogsearch.service.data.BlogSearchConditionData;
 import com.woody.webservice.blogsearch.service.data.BlogSearchResultData;
-import com.woody.client.kakao.KakaoBlogSearchClient;
-import com.woody.client.kakao.dto.response.KakaoBlogSearchResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
@@ -25,18 +24,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KakaoBlogSearchServiceImpl implements BlogSearchService {
 
-    private final KakaoBlogSearchClient kakaoBlogSearchClient;
-
-    private final ApplicationEventPublisher publisher;
+    private final KakaoApiClient kakaoApiClient;
 
     @Override
-    public BlogSearchResultData searchBlog(BlogSearchConditionData searchCondition) {
-
-        KakaoBlogSearchResponse searchResponse = kakaoBlogSearchClient.searchBlog(searchCondition.getKeyword(), searchCondition.getSort().getValue(), searchCondition.getPage(), searchCondition.getSize());
-
-        publisher.publishEvent(new BlogSearchStatisticsEvent(searchCondition.getKeyword()));
-
-        return mapBlogSearchResult(searchResponse, searchCondition);
+    public Mono<BlogSearchResultData> searchBlogs(BlogSearchConditionData searchCondition) {
+        return kakaoApiClient.searchBlogs(searchCondition.getKeyword(), searchCondition.getSort().getValue(), searchCondition.getPage(), searchCondition.getSize())
+                .map(kakaoBlogSearchResponse -> mapBlogSearchResult(kakaoBlogSearchResponse, searchCondition));
     }
 
     private BlogSearchResultData mapBlogSearchResult(KakaoBlogSearchResponse searchResponse, BlogSearchConditionData searchCondition) {

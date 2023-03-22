@@ -1,6 +1,6 @@
 logging:
   level:
-    com.woody.client: DEBUG
+    com.woody.client: TRACE
 ---
 spring.config.activate.on-profile: local
 kakao:

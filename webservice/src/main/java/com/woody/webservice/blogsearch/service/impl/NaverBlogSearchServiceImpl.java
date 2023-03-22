@@ -1,16 +1,15 @@
 package com.woody.webservice.blogsearch.service.impl;
 
-import com.woody.client.naver.NaverBlogSearchClient;
+import com.woody.client.naver.NaverApiClient;
 import com.woody.client.naver.dto.response.NaverBlogSearchResponse;
 import com.woody.webservice.blogsearch.enums.Sort;
-import com.woody.webservice.blogsearch.event.BlogSearchStatisticsEvent;
 import com.woody.webservice.blogsearch.service.BlogSearchService;
 import com.woody.webservice.blogsearch.service.data.BlogSearchConditionData;
 import com.woody.webservice.blogsearch.service.data.BlogSearchResultData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
@@ -19,18 +18,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NaverBlogSearchServiceImpl implements BlogSearchService {
 
-    private final NaverBlogSearchClient naverBlogSearchClient;
-
-    private final ApplicationEventPublisher publisher;
+    private final NaverApiClient naverApiClient;
 
     @Override
-    public BlogSearchResultData searchBlog(BlogSearchConditionData searchCondition) {
-
-        NaverBlogSearchResponse searchResponse = naverBlogSearchClient.searchBlog(searchCondition.getKeyword(), searchCondition.getSize(), searchCondition.getPage(), getSort(searchCondition.getSort()));
-
-        publisher.publishEvent(new BlogSearchStatisticsEvent(searchCondition.getKeyword()));
-
-        return mapBlogSearchResult(searchResponse);
+    public Mono<BlogSearchResultData> searchBlogs(BlogSearchConditionData searchCondition) {
+        return naverApiClient.searchBlogs(searchCondition.getKeyword(), getSort(searchCondition.getSort()), searchCondition.getPage(), searchCondition.getSize())
+                .map(this::mapBlogSearchResult);
     }
 
     private BlogSearchResultData mapBlogSearchResult(NaverBlogSearchResponse searchResponse) {
