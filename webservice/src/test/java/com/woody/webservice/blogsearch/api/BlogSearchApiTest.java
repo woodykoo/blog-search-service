@@ -104,7 +104,7 @@ class BlogSearchApiTest {
             void 카카오_서버_장애_네이버_블로그_조회_성공() throws Exception {
                 // given
                 Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlogs(any()))
-                        .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse("ServerError", "ServerError")));
+                        .thenReturn(Mono.error(new KakaoServerErrorException(new KakaoErrorResponse("ServerError", "ServerError"))));
 
                 Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlogs(any()))
                         .thenReturn(Mono.just(blogSearchResultData));
@@ -205,10 +205,10 @@ class BlogSearchApiTest {
             void 카카오_네이버_서버장애_조회실패() {
                 // given
                 Mockito.when(blogSearchServiceRouter.getServiceBySource(KAKAO).searchBlogs(any()))
-                        .thenThrow(new KakaoServerErrorException(new KakaoErrorResponse()));
+                        .thenReturn(Mono.error(new KakaoServerErrorException(new KakaoErrorResponse())));
 
                 Mockito.when(blogSearchServiceRouter.getServiceBySource(NAVER).searchBlogs(any()))
-                        .thenThrow(new NaverServerErrorException(new NaverErrorResponse("SE99", "서버 내부에 오류가 발생했습니다.")));
+                        .thenReturn(Mono.error(new NaverServerErrorException(new NaverErrorResponse("SE99", "서버 내부에 오류가 발생했습니다."))));
 
                 // when
                 ErrorResponse responseBody = webTestClient.get().uri(uriBuilder ->
