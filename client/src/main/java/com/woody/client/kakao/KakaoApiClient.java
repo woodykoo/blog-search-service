@@ -1,5 +1,6 @@
 package com.woody.client.kakao;
 
+import com.woody.client.common.LogRequestFilter;
 import com.woody.client.kakao.config.KakaoApiProperties;
 import com.woody.client.kakao.dto.response.KakaoBlogSearchResponse;
 import com.woody.client.kakao.exception.KakaoBadRequestException;
@@ -19,11 +20,11 @@ public class KakaoApiClient {
 
     public KakaoApiClient(KakaoApiProperties kakaoApiProperties) {
         this.webClient = WebClient.builder()
+                .filter(new LogRequestFilter())
                 .baseUrl(kakaoApiProperties.getUrl())
                 .defaultHeader("Authorization", "KakaoAK " + kakaoApiProperties.getKey())
                 .build();
     }
-
     public Mono<KakaoBlogSearchResponse> searchBlogs(String query, String sort, int page, int size) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder

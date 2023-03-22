@@ -1,5 +1,6 @@
 package com.woody.client.naver;
 
+import com.woody.client.common.LogRequestFilter;
 import com.woody.client.naver.config.NaverApiProperties;
 import com.woody.client.naver.dto.response.NaverBlogSearchResponse;
 import com.woody.client.naver.exception.NaverBadRequestException;
@@ -19,6 +20,7 @@ public class NaverApiClient {
 
     public NaverApiClient(NaverApiProperties naverApiProperties) {
         this.webClient = WebClient.builder()
+                .filter(new LogRequestFilter())
                 .baseUrl(naverApiProperties.getUrl())
                 .defaultHeader("X-Naver-Client-Id", naverApiProperties.getClientId())
                 .defaultHeader("X-Naver-Client-Secret", naverApiProperties.getClientSecret())
