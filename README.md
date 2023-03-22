@@ -37,12 +37,10 @@ implementation 'org.redisson:redisson:3.20.0'
 │           │   └── com
 │           │       └── woody
 │           │           └── client
-│           │               ├── config
-│           │               │   └── FeignConfig.java
 │           │               ├── kakao
-│           │               │   ├── KakaoBlogSearchClient.java
+│           │               │   ├── KakaoApiClient.java
 │           │               │   ├── config
-│           │               │   │   └── KakaoFeignConfig.java
+│           │               │   │   └── KakaoApiProperties.java
 │           │               │   ├── dto
 │           │               │   │   └── response
 │           │               │   │       └── KakaoBlogSearchResponse.java
@@ -50,12 +48,11 @@ implementation 'org.redisson:redisson:3.20.0'
 │           │               │       ├── KakaoBadRequestException.java
 │           │               │       ├── KakaoClientException.java
 │           │               │       ├── KakaoErrorResponse.java
-│           │               │       ├── KakaoFeignErrorDecoder.java
 │           │               │       └── KakaoServerErrorException.java
 │           │               └── naver
-│           │                   ├── NaverBlogSearchClient.java
+│           │                   ├── NaverApiClient.java
 │           │                   ├── config
-│           │                   │   └── NaverFeignConfig.java
+│           │                   │   └── NaverApiProperties.java
 │           │                   ├── dto
 │           │                   │   └── response
 │           │                   │       └── NaverBlogSearchResponse.java
@@ -63,7 +60,6 @@ implementation 'org.redisson:redisson:3.20.0'
 │           │                       ├── NaverBadRequestException.java
 │           │                       ├── NaverClientException.java
 │           │                       ├── NaverErrorResponse.java
-│           │                       ├── NaverFeignErrorDecoder.java
 │           │                       └── NaverServerErrorException.java
 │           └── resources
 │               └── application-client.yml
@@ -149,5 +145,5 @@ implementation 'org.redisson:redisson:3.20.0'
                 ├── application.yml
                 └── logback-spring.xml
 
-56 directories, 67 files
+55 directories, 64 files
 ```
