@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Created by woody 2023.03.22
+ * 카카오 블로그 검색 응답 DTO
+ * */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

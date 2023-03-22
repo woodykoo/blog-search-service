@@ -7,6 +7,10 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeFunction;
 import reactor.core.publisher.Mono;
 
+/**
+ * Created by woody 2023.03.22
+ * Request 로그 출력용 Filter
+ * */
 @Slf4j
 public class LogRequestFilter implements ExchangeFilterFunction {
     @Override

@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+/**
+ * Created by woody 2023.03.22
+ * 카카오 API 호출 Client
+ * */
 @Component
 public class KakaoApiClient {
 
@@ -25,6 +29,16 @@ public class KakaoApiClient {
                 .defaultHeader("Authorization", "KakaoAK " + kakaoApiProperties.getKey())
                 .build();
     }
+
+    /**
+     * 카카오 블로그 검색 API 호출
+     * @param query 검색어
+     * @param sort 검색정렬 (accuracy, recency)
+     * @param page 요청페이지
+     * @param size 문서 사이즈
+     *
+     * @return Mono<KakaoBlogSearchResponse>
+     * */
     public Mono<KakaoBlogSearchResponse> searchBlogs(String query, String sort, int page, int size) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder

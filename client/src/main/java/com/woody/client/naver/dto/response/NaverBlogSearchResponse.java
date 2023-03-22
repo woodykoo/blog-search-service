@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Created by woody 2023.03.22
+ * 네이버 블로그 검색 응답 DTO
+ * */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Created by woody 2023.03.22
+ * 인기 검색어 DTO
+ * */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

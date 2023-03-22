@@ -4,6 +4,10 @@ import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
+/**
+ * Created by woody 2023.03.22
+ * 네이버 API 호출 정보
+ * */
 @Getter
 @ConstructorBinding
 @ConfigurationProperties("naver.api")

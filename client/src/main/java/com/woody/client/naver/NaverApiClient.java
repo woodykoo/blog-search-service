@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+/**
+ * Created by woody 2023.03.22
+ * 네이버 API 호출 Client
+ * */
 @Component
 public class NaverApiClient {
 
