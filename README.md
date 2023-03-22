@@ -37,6 +37,8 @@ implementation 'org.redisson:redisson:3.20.0'
 │           │   └── com
 │           │       └── woody
 │           │           └── client
+│           │               ├── common
+│           │               │   └── LogRequestFilter.java
 │           │               ├── kakao
 │           │               │   ├── KakaoApiClient.java
 │           │               │   ├── config
@@ -145,5 +147,6 @@ implementation 'org.redisson:redisson:3.20.0'
                 ├── application.yml
                 └── logback-spring.xml
 
-55 directories, 64 files
+56 directories, 65 files
+
 ```
